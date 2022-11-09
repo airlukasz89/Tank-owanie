@@ -9,6 +9,30 @@ export default class Demo extends Phaser.Scene
         super('demo');
     }
 
+    isColiding 
+    (r1x,r1y,r1w,r1h,
+    r2x,r2y,r2w,r2h) {
+
+        if (r1x + r1w >= r2x &&     // r1 right edge past r2 left
+        r1x <= r2x + r2w &&       // r1 left edge past r2 right
+        r1y + r1h >= r2y &&       // r1 top edge past r2 bottom
+        r1y <= r2y + r2h)          // r1 bottom edge past r2 top
+        {       
+            return true;
+        }
+
+        return false;
+    }
+
+    update () 
+    {
+        let coliding = this.isColiding(this.player.x, this.player.y, 32, 32,
+                112, 48, 32, 32);
+
+        console.log("COLLIDING: " + coliding);
+        //console.log("x: "+ this.player.x + " y: " + this.player.y)
+    }
+
     preload ()
     {
 
