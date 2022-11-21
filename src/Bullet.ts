@@ -3,13 +3,14 @@ import Managers from "./Managers";
 export default class Bullet 
 {
     private speed : number = 4;
+    private audio : Phaser.Sound.BaseSound;
     private image : Phaser.GameObjects.Image;
-    private sound : Phaser.Sound.BaseSound;  
+   
 
-    constructor(x: number, y : number, sound : Phaser.Sound.BaseSoundManager, add :  Phaser.GameObjects.GameObjectFactory)
+    constructor(x: number, y : number)
     {
-        this.sound = sound.add("bullet_shot");
-        this.image = add.image(x, y, 'bullet');
+        this.audio = Managers.sound.add("bullet_shot");
+        this.image = Managers.add.image(x, y, 'bullet');
     }
 
     static preload ()
