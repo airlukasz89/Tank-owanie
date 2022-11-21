@@ -1,5 +1,6 @@
 import 'phaser';
 import Tank from './Tank';
+import Managers from './Managers';
 
 export default class MainScene extends Phaser.Scene
 {
@@ -42,11 +43,16 @@ export default class MainScene extends Phaser.Scene
 
     preload ()
     {
+        Managers.sound = this.sound;
+        Managers.add = this.add;
+        Managers.loader = this.load;
+        Managers.input = this.input;
+        
         this.load.image('tiles', 'assets/drawtiles-spaced.png');
         this.load.tilemapCSV('map', 'assets/grid.csv');
         
         this.tank = new Tank();
-        this.tank.preload(this.load);
+        this.tank.preload();
     }
 
     create ()
@@ -55,7 +61,7 @@ export default class MainScene extends Phaser.Scene
         var tileset = map.addTilesetImage('tiles', null, 32, 32, 1, 2);
         this.layer = map.createLayer(0, tileset, 0, 0);
 
-        this.tank.create(this.input, this.sound, this.add)
+        this.tank.create()
 
     }
 }

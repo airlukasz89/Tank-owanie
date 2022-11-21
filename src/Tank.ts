@@ -1,3 +1,6 @@
+import Bullet from "./Bullet";
+import Managers from './Managers';
+
 export default class Tank 
 {
     private speed : number = 4;
@@ -25,8 +28,6 @@ export default class Tank
         }
 
     }
-
-
 
     private moveTankAllDirections(layer : Phaser.Tilemaps.TilemapLayer)
     {
@@ -59,33 +60,44 @@ export default class Tank
             var tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
             this.moveTank(moveVector, 90, tile.index);
         }
+        
+    }
+
+    private shotBullet() 
+    {
+        if(this.cursors.space.isDown)
+        {
+        //    new Bullet(this.playerTankImage.x,this.playerTnkImage.y,this.)
+        }
     }
 
     update (layer : Phaser.Tilemaps.TilemapLayer) 
     {
         this.moveTankAllDirections(layer);
+        this.shotBullet()
     }
    
-    preload (loader : Phaser.Loader.LoaderPlugin)
+    preload ()
     {
-        loader.audio('tank_idle', ['assets/tank_idle.mp3']);
-        loader.audio('tank_moving', ['assets/tank_moving.mp3']);
-        loader.image('car', 'assets/car90.png');
+        Managers.loader.audio('tank_idle', ['assets/tank_idle.mp3']);
+        Managers.loader.audio('tank_moving', ['assets/tank_moving.mp3']);
+        Managers.loader.image('car', 'assets/car90.png');
        
+        Bullet.preload();
     }
 
-    create (input : Phaser.Input.InputPlugin, sound : Phaser.Sound.BaseSoundManager, add :  Phaser.GameObjects.GameObjectFactory)
+    create ()
     {   
-        this.cursors = input.keyboard.createCursorKeys();
+        this.cursors = Managers.input.keyboard.createCursorKeys();
         
-        this.tankIdleAudio = sound.add("tank_idle");
-        this.tankMovingAudio = sound.add("tank_moving", {
+        this.tankIdleAudio = Managers.sound.add("tank_idle");
+        this.tankMovingAudio = Managers.sound.add("tank_moving", {
             loop: true
         });
         
-        this.playerTankImage = add.image(32+16, 32+16, 'car');
+        this.playerTankImage = Managers.add.image(32+16, 32+16, 'car');
        
-        input.keyboard.on("keyup", ()=>{
+        Managers.input.keyboard.on("keyup", ()=>{
             this.tankMovingAudio.stop();
         });
     }
