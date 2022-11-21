@@ -67,7 +67,7 @@ export default class Tank
     {
         if(this.cursors.space.isDown)
         {
-        //    new Bullet(this.playerTankImage.x,this.playerTnkImage.y,this.)
+            new Bullet()
         }
     }
 
