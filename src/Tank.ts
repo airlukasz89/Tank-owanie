@@ -5,10 +5,11 @@ export default class Tank
     private tankIdleAudio : Phaser.Sound.BaseSound;
     private tankMovingAudio : Phaser.Sound.BaseSound;
     private cursors : Phaser.Types.Input.Keyboard.CursorKeys;
+    
 
 
 
-    moveTank(vector : Phaser.Math.Vector2, angle : number, index : number){
+    private moveTank(vector : Phaser.Math.Vector2, angle : number, index : number){
         if (index === 2)
         {
             console.log("2");
@@ -27,7 +28,7 @@ export default class Tank
 
 
 
-    moveTankAllDirections(layer : Phaser.Tilemaps.TilemapLayer)
+    private moveTankAllDirections(layer : Phaser.Tilemaps.TilemapLayer)
     {
         if(this.cursors.left.isDown)
         {
@@ -59,12 +60,17 @@ export default class Tank
             this.moveTank(moveVector, 90, tile.index);
         }
     }
+
+    update (layer : Phaser.Tilemaps.TilemapLayer) 
+    {
+        this.moveTankAllDirections(layer);
+    }
    
     preload (loader : Phaser.Loader.LoaderPlugin)
     {
         loader.audio('tank_idle', ['assets/tank_idle.mp3']);
         loader.audio('tank_moving', ['assets/tank_moving.mp3']);
-       loader.image('car', 'assets/car90.png');
+        loader.image('car', 'assets/car90.png');
        
     }
 

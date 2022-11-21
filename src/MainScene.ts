@@ -31,8 +31,8 @@ export default class MainScene extends Phaser.Scene
     
     update () 
     {
-        this.tank.moveTankAllDirections(this.layer);
-
+        
+        this.tank.update(this.layer);
         // let coliding = this.isColiding(this.playerTankImage.x, this.playerTankImage.y, 32, 32,
                 // 112, 48, 32, 32);
 
