@@ -8,9 +8,7 @@ export default class Tank
     private tankIdleAudio : Phaser.Sound.BaseSound;
     private tankMovingAudio : Phaser.Sound.BaseSound;
     private cursors : Phaser.Types.Input.Keyboard.CursorKeys;
-    
-
-
+    private bullets: Bullet[] = [];
 
     private moveTank(vector : Phaser.Math.Vector2, angle : number, index : number){
         if (index === 2)
@@ -67,7 +65,8 @@ export default class Tank
     {
         if(this.cursors.space.isDown)
         {
-            new Bullet(this.playerTankImage.x, this.playerTankImage.y)
+            let newBullet = new Bullet(this.playerTankImage.x, this.playerTankImage.y);
+            this.bullets.push(newBullet);
         }
     }
 
@@ -75,6 +74,12 @@ export default class Tank
     {
         this.moveTankAllDirections(layer);
         this.shotBullet()
+        
+        for(let bullet of this.bullets)
+        {
+            bullet.update();
+        }
+
     }
    
     preload ()

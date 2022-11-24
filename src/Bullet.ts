@@ -2,7 +2,7 @@ import Managers from "./Managers";
 
 export default class Bullet 
 {
-    private speed : number = 4;
+    private speed : number = 40;
     private audio : Phaser.Sound.BaseSound;
     private image : Phaser.GameObjects.Image;
    
@@ -13,19 +13,27 @@ export default class Bullet
         this.image = Managers.add.image(x, y, 'bullet');
     }
 
+    update ()
+    {
+       
+        this.move()
+    }
+
     static preload ()
     {
         Managers.loader.audio('bullet_shot', ['assets/bullet_shot.mp3']);
         Managers.loader.image('bullet', 'assets/bullet.png');
+
     }
 
-
     
-    private move(vector : Phaser.Math.Vector2, angle : number, index : number){
+    private move()
+    {
         
-    
+        this.image.x = this.image.x + this.speed;
 
     }
 
     
 }
+
