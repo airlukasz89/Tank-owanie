@@ -10,6 +10,7 @@ export default class Tank
     private cursors : Phaser.Types.Input.Keyboard.CursorKeys;
     private bullets: Bullet[] = [];
 
+
     private moveTank(vector : Phaser.Math.Vector2, angle : number, index : number){
         if (index === 2)
         {
@@ -19,13 +20,42 @@ export default class Tank
         }
         else
         {
-            if(!this.tankMovingAudio.isPlaying) this.tankMovingAudio.play();
+            if(!this.tankMovingAudio.isPlaying) 
+            {
+                this.tankMovingAudio.play();
+            }
             this.playerTankImage.x = vector.x;
             this.playerTankImage.y = vector.y;
             this.playerTankImage.angle = angle;
         }
 
     }
+
+    private GetDirection() 
+    {
+        if (this.playerTankImage.angle == -180) 
+        {
+            return new Phaser.Math.Vector2(-1,0);
+        }
+
+        if (this.playerTankImage.angle == 0)
+        {
+            return new Phaser.Math.Vector2(1,0)
+        }
+
+        if (this.playerTankImage.angle == -90)
+        {
+            return new Phaser.Math.Vector2(0,-1)
+        }
+
+        if (this.playerTankImage.angle == 90)
+        {
+            return new Phaser.Math.Vector2(0,1)
+        }
+        console.error("no such direction "+ this.playerTankImage.angle )
+
+    }
+
 
     private moveTankAllDirections(layer : Phaser.Tilemaps.TilemapLayer)
     {
@@ -60,13 +90,16 @@ export default class Tank
         }
         
     }
-
+ 
     private shotBullet() 
     {
-        if(this.cursors.space.isDown)
-        {
-            let newBullet = new Bullet(this.playerTankImage.x, this.playerTankImage.y);
+        if(this.cursors.space.isDown) 
+        {   
+            let bulletDirection = this.GetDirection()
+            let startPosition = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y)
+            let newBullet = new Bullet(startPosition, bulletDirection);
             this.bullets.push(newBullet);
+           
         }
     }
 

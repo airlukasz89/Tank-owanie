@@ -5,12 +5,16 @@ export default class Bullet
     private speed : number = 40;
     private audio : Phaser.Sound.BaseSound;
     private image : Phaser.GameObjects.Image;
-   
+    private direction : Phaser.Math.Vector2;
+    
 
-    constructor(x: number, y : number)
-    {
+    constructor(startPosition : Phaser.Math.Vector2, direction : Phaser.Math.Vector2)
+    {   
+        this.direction = direction;
         this.audio = Managers.sound.add("bullet_shot");
-        this.image = Managers.add.image(x, y, 'bullet');
+        this.image = Managers.add.image(startPosition.x, startPosition.y, 'bullet');
+
+
     }
 
     update ()
@@ -30,7 +34,10 @@ export default class Bullet
     private move()
     {
         
-        this.image.x = this.image.x + this.speed;
+         this.image.x = this.image.x + this.direction.x;
+         
+         this.image.y = this.image.y + this.direction.y;
+        
 
     }
 
