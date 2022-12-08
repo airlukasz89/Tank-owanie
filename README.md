@@ -1,3 +1,11 @@
+# How to run it on Docker
+
+- install Docker
+- `docker build -t twoja-nazwa-kontenera .`
+- change host from `localhost` to `0.0.0.0` in `rollup.config.dev.js`
+- `docker run -p 10001:10001 -d twoja-nazwa-kontenera`
+- rebuild each single run?
+
 # Phaser 3 TypeScript Project Template
 
 This quick-start project template combines Phaser 3.50 with [TypeScript 4](https://www.typescriptlang.org/) and uses [Rollup](https://rollupjs.org) for bundling.
