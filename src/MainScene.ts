@@ -1,5 +1,6 @@
 import 'phaser';
 import Tank from './Tank';
+import EnemyTank from './EnemyTank';
 import Managers from './Managers';
 
 export default class MainScene extends Phaser.Scene
@@ -8,6 +9,9 @@ export default class MainScene extends Phaser.Scene
     private layer : Phaser.Tilemaps.TilemapLayer;
 
     private tank : Tank;
+
+    private enemyTank : EnemyTank;
+
 
     constructor ()
     {
@@ -34,6 +38,7 @@ export default class MainScene extends Phaser.Scene
     {
         
         this.tank.update(this.layer);
+        this.enemyTank.update(this.layer);
         // let coliding = this.isColiding(this.playerTankImage.x, this.playerTankImage.y, 32, 32,
                 // 112, 48, 32, 32);
 
@@ -53,6 +58,9 @@ export default class MainScene extends Phaser.Scene
         
         this.tank = new Tank();
         this.tank.preload();
+
+        this.enemyTank = new EnemyTank();
+        this.enemyTank.preload();
     }
 
     create ()
@@ -61,7 +69,8 @@ export default class MainScene extends Phaser.Scene
         var tileset = map.addTilesetImage('tiles', null, 32, 32, 1, 2);
         this.layer = map.createLayer(0, tileset, 0, 0);
 
-        this.tank.create()
+        this.tank.create();
+        this.enemyTank.create()
 
     }
 }
