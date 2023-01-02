@@ -103,6 +103,8 @@ export default class Tank
         }
     }
 
+
+
     update (layer : Phaser.Tilemaps.TilemapLayer) 
     {
         this.moveTankAllDirections(layer);
@@ -110,9 +112,18 @@ export default class Tank
         
         for(let bullet of this.bullets)
         {
-            bullet.update();
-        }
+            bullet.update(layer);
 
+            if (bullet.isDestroyed) {
+                const objWithIdIndex = this.bullets.findIndex((b) => b.isDestroyed);
+
+                if (objWithIdIndex > -1) {
+                  this.bullets.splice(objWithIdIndex, 1);
+                }
+              
+            }
+        }
+        console.log(this.bullets.length);
     }
    
     preload ()

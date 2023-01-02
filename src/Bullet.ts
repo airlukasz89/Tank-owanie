@@ -6,6 +6,9 @@ export default class Bullet
     private audio : Phaser.Sound.BaseSound;
     private image : Phaser.GameObjects.Image;
     private direction : Phaser.Math.Vector2;
+
+    public isDestroyed: boolean = false;
+
     
 
     constructor(startPosition : Phaser.Math.Vector2, direction : Phaser.Math.Vector2)
@@ -17,10 +20,10 @@ export default class Bullet
 
     }
 
-    update ()
+    update (layer : Phaser.Tilemaps.TilemapLayer)
     {
-       
         this.move()
+        this.checkCollison(layer)
     }
 
     static preload ()
@@ -38,6 +41,17 @@ export default class Bullet
          
          this.image.y = this.image.y + this.direction.y;
         
+
+    }
+
+    private checkCollison(layer : Phaser.Tilemaps.TilemapLayer) {
+        let tileOffset = new Phaser.Math.Vector2(this.image.x, this.image.y);
+        var tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
+        
+        if (tile.index == 2) {
+            this.isDestroyed = true
+            this.image.destroy()
+        }
 
     }
 
