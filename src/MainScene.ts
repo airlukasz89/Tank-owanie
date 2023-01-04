@@ -10,7 +10,7 @@ export default class MainScene extends Phaser.Scene
 
     private tank : Tank;
 
-    private enemyTank : EnemyTank;
+    private enemyTanks : EnemyTank[] = [];
 
 
     constructor ()
@@ -38,12 +38,11 @@ export default class MainScene extends Phaser.Scene
     {
         
         this.tank.update(this.layer);
-        this.enemyTank.update(this.layer);
-        // let coliding = this.isColiding(this.playerTankImage.x, this.playerTankImage.y, 32, 32,
-                // 112, 48, 32, 32);
-
-        // console.log("COLLIDING: " + coliding);
-        //console.log("x: "+ this.player.x + " y: " + this.player.y)
+        for ( let enemyTank of this.enemyTanks) {
+            enemyTank.update(this.layer);
+        }
+       
+        
     }
 
     preload ()
@@ -59,8 +58,12 @@ export default class MainScene extends Phaser.Scene
         this.tank = new Tank();
         this.tank.preload();
 
-        this.enemyTank = new EnemyTank();
-        this.enemyTank.preload();
+        for (let i = 0; i < 3; i++) {
+            let enemyTank = new EnemyTank();
+            enemyTank.preload();
+            this.enemyTanks.push(enemyTank);
+        }
+        
     }
 
     create ()
@@ -70,7 +73,11 @@ export default class MainScene extends Phaser.Scene
         this.layer = map.createLayer(0, tileset, 0, 0);
 
         this.tank.create();
-        this.enemyTank.create()
+
+        for ( let enemyTank of this.enemyTanks) {
+            enemyTank.create()
+        }
+        
 
     }
 }
