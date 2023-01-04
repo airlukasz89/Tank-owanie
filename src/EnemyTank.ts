@@ -1,5 +1,7 @@
 import Bullet from "./Bullet";
+import Direction from "./Direction";
 import Managers from './Managers';
+
 
 export default class EnemyTank 
 {
@@ -9,46 +11,41 @@ export default class EnemyTank
     private tankMovingAudio : Phaser.Sound.BaseSound;
     private cursors : Phaser.Types.Input.Keyboard.CursorKeys;
     private bullets: Bullet[] = [];
+    private direction : Direction = Direction.Down;
+    
 
 
-    private moveTank(vector : Phaser.Math.Vector2, angle : number, index : number){
-        if (index === 2)
+    private moveTank() {
+        let moveVector = this.GetDirectionVector()
+        
+        if(!this.tankMovingAudio.isPlaying) 
         {
-            console.log("2");
-            this.tankMovingAudio.stop();
-            //  Blocked, we can't move
+            this.tankMovingAudio.play();
         }
-        else
-        {
-            if(!this.tankMovingAudio.isPlaying) 
-            {
-                this.tankMovingAudio.play();
-            }
-            this.playerTankImage.x = vector.x;
-            this.playerTankImage.y = vector.y;
-            this.playerTankImage.angle = angle;
-        }
-
+        this.playerTankImage.x = this.playerTankImage.x + (moveVector.x * this.speed);
+        this.playerTankImage.y = this.playerTankImage.y + (moveVector.y * this.speed);
+        this.playerTankImage.angle = this.direction;
+        console.log(moveVector);
     }
 
-    private GetDirection() 
+    private GetDirectionVector() 
     {
-        if (this.playerTankImage.angle == -180) 
+        if (this.direction == Direction.Left) 
         {
             return new Phaser.Math.Vector2(-1,0);
         }
 
-        if (this.playerTankImage.angle == 0)
+        if (this.direction == Direction.Right)
         {
             return new Phaser.Math.Vector2(1,0)
         }
 
-        if (this.playerTankImage.angle == -90)
+        if (this.direction == Direction.Up)
         {
             return new Phaser.Math.Vector2(0,-1)
         }
 
-        if (this.playerTankImage.angle == 90)
+        if (this.direction == Direction.Down)
         {
             return new Phaser.Math.Vector2(0,1)
         }
@@ -57,37 +54,53 @@ export default class EnemyTank
     }
 
 
-    private moveTankAllDirections(layer : Phaser.Tilemaps.TilemapLayer)
-    {
-        if(this.cursors.left.isDown)
-        {
-            let moveVector = new Phaser.Math.Vector2(this.playerTankImage.x - this.speed, this.playerTankImage.y);
-            let tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x - 16 - this.speed, this.playerTankImage.y);
-            var tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
-            this.moveTank(moveVector, 180, tile.index);
-        }
+    private xxxxxx()
+    { 
+        //right
+        // let moveVector = new Phaser.Math.Vector2(this.playerTankImage.x + this.speed, this.playerTankImage.y);
+        // let tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x + 16 , this.playerTankImage.y);
+        // let tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
 
-        if(this.cursors.right.isDown)
-        {
-            let moveVector = new Phaser.Math.Vector2(this.playerTankImage.x + this.speed, this.playerTankImage.y);
-            let tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x + 16 , this.playerTankImage.y);
-            var tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
-            this.moveTank(moveVector, 0, tile.index);
-        }
-        if(this.cursors.up.isDown)
-        {
-            let moveVector = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y - this.speed);
-            let tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y - 16 - this.speed);
-            var tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
-            this.moveTank(moveVector, -90, tile.index);
-        }
-        if(this.cursors.down.isDown)
-        {
-            let moveVector = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y + this.speed);
-            let tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y + 16);
-            var tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
-            this.moveTank(moveVector, 90, tile.index);
-        }
+        // if(tile.index != 2)
+        // {
+            
+        //     this.moveTank(moveVector, 0, tile.index);
+        //     return;
+        // }
+
+        //  //left
+        // moveVector = new Phaser.Math.Vector2(this.playerTankImage.x - this.speed, this.playerTankImage.y);
+        // tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x - 16 - this.speed, this.playerTankImage.y);
+        // tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
+ 
+        //  if(tile.index != 2)
+        //  {    
+        //      this.moveTank(moveVector, 180, tile.index);
+        //      return;
+        //  }
+       
+        // //up
+        // moveVector = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y - this.speed);
+        // tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y - 16 - this.speed);
+        // tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
+        
+        // if(tile.index != 2)
+        // {
+            
+        //     this.moveTank(moveVector, -90, tile.index);
+        //     return;
+        // }
+        
+        // //down
+        // moveVector = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y + this.speed);
+        // tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y + 16);
+        // tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
+        
+        // if(tile.index != 2)
+        // {
+            
+        //     this.moveTank(moveVector, 90, tile.index);
+        // }
         
     }
  
@@ -95,7 +108,7 @@ export default class EnemyTank
     {
         if(this.cursors.space.isDown) 
         {   
-            let bulletDirection = this.GetDirection()
+            let bulletDirection = this.GetDirectionVector()
             let startPosition = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y)
             let newBullet = new Bullet(startPosition, bulletDirection);
             this.bullets.push(newBullet);
@@ -107,7 +120,7 @@ export default class EnemyTank
 
     update (layer : Phaser.Tilemaps.TilemapLayer) 
     {
-        this.moveTankAllDirections(layer);
+        this.moveTank();
         this.shotBullet()
         
         for(let bullet of this.bullets)
