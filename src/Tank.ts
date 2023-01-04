@@ -58,7 +58,23 @@ export default class Tank
 
     private moveTankAllDirections(layer : Phaser.Tilemaps.TilemapLayer)
     {
-        if(this.cursors.left.isDown)
+        var axisH = 0;
+        var axisV = 0;
+       
+        if(!!Managers.input.gamepad)
+        {
+            var pad = Managers.input.gamepad.getPad(0);
+
+            if (!!pad && pad.axes.length)
+            {
+                axisH = pad.axes[0].getValue();
+                axisV = pad.axes[1].getValue();
+
+                console.log("H: " + axisH + " | V: " + axisV)
+            }
+        }
+
+        if(this.cursors.left.isDown || (axisH < 0.1 && axisH != 0))
         {
             let moveVector = new Phaser.Math.Vector2(this.playerTankImage.x - this.speed, this.playerTankImage.y);
             let tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x - 16 - this.speed, this.playerTankImage.y);
@@ -66,21 +82,21 @@ export default class Tank
             this.moveTank(moveVector, 180, tile.index);
         }
 
-        if(this.cursors.right.isDown)
+        if(this.cursors.right.isDown || (axisH > 0.1 && axisH != 0))
         {
             let moveVector = new Phaser.Math.Vector2(this.playerTankImage.x + this.speed, this.playerTankImage.y);
             let tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x + 16 , this.playerTankImage.y);
             var tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
             this.moveTank(moveVector, 0, tile.index);
         }
-        if(this.cursors.up.isDown)
+        if(this.cursors.up.isDown || (axisV < 0.1 && axisV != 0))
         {
             let moveVector = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y - this.speed);
             let tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y - 16 - this.speed);
             var tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
             this.moveTank(moveVector, -90, tile.index);
         }
-        if(this.cursors.down.isDown)
+        if(this.cursors.down.isDown || (axisV > 0.1 && axisV != 0))
         {
             let moveVector = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y + this.speed);
             let tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y + 16);
@@ -92,7 +108,15 @@ export default class Tank
  
     private shotBullet() 
     {
-        if(this.cursors.space.isDown) 
+        var gamepadShoot = false;
+
+        if(!!Managers.input.gamepad)
+        {
+            var pad = Managers.input.gamepad.getPad(0);
+            gamepadShoot = !!pad && pad.B;
+        }
+
+        if(this.cursors.space.isDown || gamepadShoot) 
         {   
             let bulletDirection = this.GetDirection()
             let startPosition = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y)

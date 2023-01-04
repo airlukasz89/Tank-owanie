@@ -36,13 +36,10 @@ export default class MainScene extends Phaser.Scene
     
     update () 
     {
-        
         this.tank.update(this.layer);
         for ( let enemyTank of this.enemyTanks) {
             enemyTank.update(this.layer);
         }
-       
-        
     }
 
     preload ()
@@ -78,7 +75,7 @@ export default class MainScene extends Phaser.Scene
             enemyTank.create()
         }
         
-
+        
     }
 }
 
@@ -88,6 +85,9 @@ const config = {
     height: 600,
     parent: 'phaser-example',
     pixelArt: true,
+    input: {
+        gamepad: true
+    },
     backgroundColor: '#1a1a2d',
     scene: MainScene
 };

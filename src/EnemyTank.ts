@@ -105,7 +105,6 @@ export default class EnemyTank
 
        let newDirection = nonColidingDirections[Math.floor(Math.random()*nonColidingDirections.length)];
        this.direction = newDirection;
-       console.log(nonColidingDirections);
     }
  
     private shotBullet() 
