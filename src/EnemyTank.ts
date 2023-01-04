@@ -25,7 +25,6 @@ export default class EnemyTank
         this.playerTankImage.x = this.playerTankImage.x + (moveVector.x * this.speed);
         this.playerTankImage.y = this.playerTankImage.y + (moveVector.y * this.speed);
         this.playerTankImage.angle = this.direction;
-        console.log(moveVector);
     }
 
     private GetDirectionVector() 
@@ -54,54 +53,59 @@ export default class EnemyTank
     }
 
 
-    private xxxxxx()
+    private changeDirection(layer : Phaser.Tilemaps.TilemapLayer)
     { 
-        //right
-        // let moveVector = new Phaser.Math.Vector2(this.playerTankImage.x + this.speed, this.playerTankImage.y);
-        // let tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x + 16 , this.playerTankImage.y);
-        // let tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
+        let nonColidingDirections : Direction[] = [];
+        
+        // right
+        let posiibleMoveVector = new Phaser.Math.Vector2(this.playerTankImage.x + this.speed, this.playerTankImage.y);
+        let tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x + 16 , this.playerTankImage.y);
+        let tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
 
-        // if(tile.index != 2)
-        // {
-            
-        //     this.moveTank(moveVector, 0, tile.index);
-        //     return;
-        // }
+        if(tile.index != 2)
+        {
+            nonColidingDirections.push(Direction.Right);
+        }
 
         //  //left
-        // moveVector = new Phaser.Math.Vector2(this.playerTankImage.x - this.speed, this.playerTankImage.y);
-        // tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x - 16 - this.speed, this.playerTankImage.y);
-        // tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
+        posiibleMoveVector = new Phaser.Math.Vector2(this.playerTankImage.x - this.speed, this.playerTankImage.y);
+        tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x - 16 - this.speed, this.playerTankImage.y);
+        tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
  
-        //  if(tile.index != 2)
-        //  {    
-        //      this.moveTank(moveVector, 180, tile.index);
-        //      return;
-        //  }
+         if(tile.index != 2)
+         {    
+            nonColidingDirections.push(Direction.Left);
+         }
        
         // //up
-        // moveVector = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y - this.speed);
-        // tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y - 16 - this.speed);
-        // tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
+        posiibleMoveVector = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y - this.speed);
+        tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y - 16 - this.speed);
+        tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
         
-        // if(tile.index != 2)
-        // {
+        if(tile.index != 2)
+        {
             
-        //     this.moveTank(moveVector, -90, tile.index);
-        //     return;
-        // }
+            nonColidingDirections.push(Direction.Up);
+        }
         
         // //down
-        // moveVector = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y + this.speed);
-        // tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y + 16);
-        // tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
+        posiibleMoveVector = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y + this.speed);
+        tileOffset = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y + 16);
+        tile = layer.getTileAtWorldXY(tileOffset.x , tileOffset.y, true);
         
-        // if(tile.index != 2)
-        // {
-            
-        //     this.moveTank(moveVector, 90, tile.index);
-        // }
-        
+        if(tile.index != 2)
+        {
+            nonColidingDirections.push(Direction.Down);
+        }
+
+       if (nonColidingDirections.includes(this.direction)) 
+       {
+            return;
+       } 
+
+       let newDirection = nonColidingDirections[Math.floor(Math.random()*nonColidingDirections.length)];
+       this.direction = newDirection;
+       console.log(nonColidingDirections);
     }
  
     private shotBullet() 
@@ -120,6 +124,7 @@ export default class EnemyTank
 
     update (layer : Phaser.Tilemaps.TilemapLayer) 
     {
+        this.changeDirection(layer);
         this.moveTank();
         this.shotBullet()
         
@@ -136,7 +141,6 @@ export default class EnemyTank
               
             }
         }
-        console.log(this.bullets.length);
     }
    
     preload ()

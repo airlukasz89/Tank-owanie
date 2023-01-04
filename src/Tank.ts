@@ -14,7 +14,6 @@ export default class Tank
     private moveTank(vector : Phaser.Math.Vector2, angle : number, index : number){
         if (index === 2)
         {
-            console.log("2");
             this.tankMovingAudio.stop();
             //  Blocked, we can't move
         }
@@ -123,7 +122,6 @@ export default class Tank
               
             }
         }
-        console.log(this.bullets.length);
     }
    
     preload ()
