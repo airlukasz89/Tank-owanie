@@ -12,9 +12,7 @@ export default class EnemyTank
     private cursors : Phaser.Types.Input.Keyboard.CursorKeys;
     private bullets: Bullet[] = [];
     private direction : Direction = Direction.Down;
-    private startPosition : Phaser.Math.Vector2
-
-    private isReversed : boolean;
+    private startPosition : Phaser.Math.Vector2;
     
 
     constructor(startPosition : Phaser.Math.Vector2)
@@ -135,15 +133,6 @@ export default class EnemyTank
 
     public reverseDirection()
     {   
-        //TODO tymczasowe usunac isReversed
-        if(this.isReversed)
-        {
-            return;
-        }
-
-        this.isReversed = true;
-
-        // console.log("kaszanka");
         if (this.direction == Direction.Left) 
         {
             this.direction = Direction.Right;
@@ -190,9 +179,6 @@ export default class EnemyTank
               
             }
         }
-
-        
-        this.isReversed = false;
     }
    
     preload ()

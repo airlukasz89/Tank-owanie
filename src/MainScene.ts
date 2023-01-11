@@ -36,10 +36,14 @@ export default class MainScene extends Phaser.Scene
 
     public handleEnemyTanksCollisons()
     {
+        let pairs = [];
+
         for ( let enemyTank1 of this.enemyTanks) { 
             for ( let enemyTank2 of this.enemyTanks) {
-
-
+                let isInPairs = pairs.filter(pair=> (pair[0]===enemyTank1 && pair[1]===enemyTank2) || (pair[0]===enemyTank2 && pair[1]===enemyTank1))
+                if (isInPairs.length > 0) {
+                    continue
+                }
                 if (enemyTank1 === enemyTank2) {
                     continue
                 }
@@ -47,6 +51,8 @@ export default class MainScene extends Phaser.Scene
                 let positionTank2 = enemyTank2.getPosition();
                 let isColiding = this.isColiding(positionTank1.x - 16, positionTank1.y - 16, 32, 32, positionTank2.x - 16, positionTank2.y - 16, 32, 32)
                 if (isColiding) {
+                    pairs.push([enemyTank1,enemyTank2])
+
                     console.log("is colision")
                     enemyTank1.reverseDirection();
                     enemyTank2.reverseDirection();
