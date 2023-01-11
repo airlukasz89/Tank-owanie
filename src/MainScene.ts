@@ -34,10 +34,12 @@ export default class MainScene extends Phaser.Scene
     }
 
 
-    handleEnemyTanksCollisons()
+    public handleEnemyTanksCollisons()
     {
         for ( let enemyTank1 of this.enemyTanks) { 
             for ( let enemyTank2 of this.enemyTanks) {
+
+
                 if (enemyTank1 === enemyTank2) {
                     continue
                 }
@@ -46,9 +48,13 @@ export default class MainScene extends Phaser.Scene
                 let isColiding = this.isColiding(positionTank1.x - 16, positionTank1.y - 16, 32, 32, positionTank2.x - 16, positionTank2.y - 16, 32, 32)
                 if (isColiding) {
                     console.log("is colision")
+                    enemyTank1.reverseDirection();
+                    enemyTank2.reverseDirection();
                     // console.log(positionTank1);
                     // console.log(positionTank2);
                 } 
+
+
             }   
         }
     }
@@ -76,11 +82,26 @@ export default class MainScene extends Phaser.Scene
         this.tank = new Tank();
         this.tank.preload();
 
-        for (let i = 0; i < 3; i++) {
-            let enemyTank = new EnemyTank();
-            enemyTank.preload();
-            this.enemyTanks.push(enemyTank);
-        }
+        let enemyTank = new EnemyTank(new Phaser.Math.Vector2(128,32));
+        enemyTank.preload();
+        this.enemyTanks.push(enemyTank)
+
+        enemyTank = new EnemyTank(new Phaser.Math.Vector2(128+64,32));
+        enemyTank.preload();
+        this.enemyTanks.push(enemyTank)
+
+        enemyTank = new EnemyTank(new Phaser.Math.Vector2(128+64,32+64));
+        enemyTank.preload();
+        this.enemyTanks.push(enemyTank)
+
+
+
+
+        // for (let i = 0; i < 3; i++) {
+        //     let enemyTank = new EnemyTank();
+        //     enemyTank.preload();
+        //     this.enemyTanks.push(enemyTank);
+        // }
         
     }
 

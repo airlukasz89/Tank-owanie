@@ -12,7 +12,15 @@ export default class EnemyTank
     private cursors : Phaser.Types.Input.Keyboard.CursorKeys;
     private bullets: Bullet[] = [];
     private direction : Direction = Direction.Down;
+    private startPosition : Phaser.Math.Vector2
+
+    private isReversed : boolean;
     
+
+    constructor(startPosition : Phaser.Math.Vector2)
+    {
+        this.startPosition = startPosition;
+    }
 
 
     private moveTank() {
@@ -53,7 +61,7 @@ export default class EnemyTank
     }
 
 
-    private changeDirection(layer : Phaser.Tilemaps.TilemapLayer)
+    private changeDirectionIfWall(layer : Phaser.Tilemaps.TilemapLayer)
     { 
         let nonColidingDirections : Direction[] = [];
         
@@ -125,13 +133,47 @@ export default class EnemyTank
         return position;
     }
 
-    public reverseDirection(){}
+    public reverseDirection()
+    {   
+        //TODO tymczasowe usunac isReversed
+        if(this.isReversed)
+        {
+            return;
+        }
+
+        this.isReversed = true;
+
+        // console.log("kaszanka");
+        if (this.direction == Direction.Left) 
+        {
+            this.direction = Direction.Right;
+            return;
+        } 
+
+        if (this.direction == Direction.Right) 
+        {
+            this.direction = Direction.Left;
+            return;
+        } 
+
+        if (this.direction == Direction.Up) 
+        {
+            this.direction = Direction.Down;
+            return;
+        } 
+
+        if (this.direction == Direction.Down) 
+        {
+            this.direction = Direction.Up;
+            return;
+        } 
+    }
 
 
 
     update (layer : Phaser.Tilemaps.TilemapLayer) 
     {
-        this.changeDirection(layer);
+        this.changeDirectionIfWall(layer);
         this.moveTank();
         this.shotBullet()
         
@@ -148,6 +190,9 @@ export default class EnemyTank
               
             }
         }
+
+        
+        this.isReversed = false;
     }
    
     preload ()
@@ -168,7 +213,7 @@ export default class EnemyTank
             loop: true
         });
         
-        this.playerTankImage = Managers.add.image(128+16, 32+16, 'car');
+        this.playerTankImage = Managers.add.image(this.startPosition.x +16, this.startPosition.y +16, 'car');
        
         Managers.input.keyboard.on("keyup", ()=>{
             this.tankMovingAudio.stop();
