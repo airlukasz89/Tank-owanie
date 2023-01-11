@@ -33,9 +33,30 @@ export default class MainScene extends Phaser.Scene
         return false;
     }
 
+
+    handleEnemyTanksCollisons()
+    {
+        for ( let enemyTank1 of this.enemyTanks) { 
+            for ( let enemyTank2 of this.enemyTanks) {
+                if (enemyTank1 === enemyTank2) {
+                    continue
+                }
+                let positionTank1 = enemyTank1.getPosition();
+                let positionTank2 = enemyTank2.getPosition();
+                let isColiding = this.isColiding(positionTank1.x - 16, positionTank1.y - 16, 32, 32, positionTank2.x - 16, positionTank2.y - 16, 32, 32)
+                if (isColiding) {
+                    console.log("is colision")
+                    // console.log(positionTank1);
+                    // console.log(positionTank2);
+                } 
+            }   
+        }
+    }
+
     
     update () 
     {
+        this.handleEnemyTanksCollisons();
         this.tank.update(this.layer);
         for ( let enemyTank of this.enemyTanks) {
             enemyTank.update(this.layer);

@@ -119,6 +119,14 @@ export default class EnemyTank
         }
     }
 
+    public getPosition()
+    {
+        let position = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y);
+        return position;
+    }
+
+    public reverseDirection(){}
+
 
 
     update (layer : Phaser.Tilemaps.TilemapLayer) 
