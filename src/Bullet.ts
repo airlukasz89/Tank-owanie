@@ -11,6 +11,14 @@ export default class Bullet
 
     
 
+    public getPosition()
+    {
+        let position = new Phaser.Math.Vector2(this.image.x, this.image.y);
+        return position;
+    }
+
+    
+
     constructor(startPosition : Phaser.Math.Vector2, direction : Phaser.Math.Vector2)
     {   
         this.direction = direction;
@@ -53,6 +61,11 @@ export default class Bullet
             this.image.destroy()
         }
 
+    }
+
+    public destroy() {
+        this.isDestroyed = true
+        this.image.destroy()
     }
 
     

@@ -126,7 +126,10 @@ export default class Tank
         }
     }
 
-
+    public GetBullets()
+    {
+       return this.bullets;   
+    }
 
     update (layer : Phaser.Tilemaps.TilemapLayer) 
     {
