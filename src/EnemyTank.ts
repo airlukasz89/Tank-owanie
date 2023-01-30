@@ -122,15 +122,15 @@ export default class EnemyTank {
     this.direction = newDirection;
   }
 
-  private shotBullet() {
-    // if(this.cursors.space.isDown)
-    // {
-    //     let bulletDirection = this.GetDirectionVector()
-    //     let startPosition = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y)
-    //     let newBullet = new Bullet(startPosition, bulletDirection);
-    //     this.bullets.push(newBullet);
-    // }
-  }
+  // private shotBullet() {
+  //   if(this.possilb
+  //   {
+  //       let bulletDirection = this.GetDirectionVector()
+  //       let startPosition = new Phaser.Math.Vector2(this.playerTankImage.x, this.playerTankImage.y)
+  //       let newBullet = new Bullet(startPosition, bulletDirection);
+  //       this.bullets.push(newBullet);
+  //   }
+  // }
 
   public getPosition() {
     let position = new Phaser.Math.Vector2(
@@ -170,7 +170,7 @@ export default class EnemyTank {
   update(layer: Phaser.Tilemaps.TilemapLayer) {
     this.changeDirectionIfWall(layer);
     this.moveTank();
-    this.shotBullet();
+    // this.shotBullet();
 
     for (let bullet of this.bullets) {
       bullet.update(layer);

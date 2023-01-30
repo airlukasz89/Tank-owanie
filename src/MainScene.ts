@@ -123,6 +123,7 @@ export default class MainScene extends Phaser.Scene {
     Managers.add = this.add;
     Managers.loader = this.load;
     Managers.input = this.input;
+    Managers.time = this.time;
 
     this.load.image("tiles", "assets/drawtiles-spaced.png");
     this.load.tilemapCSV("map", "assets/grid.csv");
