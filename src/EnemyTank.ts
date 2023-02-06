@@ -3,7 +3,7 @@ import Direction from "./Direction";
 import Managers from "./Managers";
 
 export default class EnemyTank {
-  private speed: number = 4;
+  private speed: number;
   private playerTankImage: Phaser.GameObjects.Image;
   private tankIdleAudio: Phaser.Sound.BaseSound;
   private tankMovingAudio: Phaser.Sound.BaseSound;
@@ -16,6 +16,8 @@ export default class EnemyTank {
 
   constructor(startPosition: Phaser.Math.Vector2) {
     this.startPosition = startPosition;
+
+    this.speed = Math.random() * (12 - 2) + 2;
   }
 
   private moveTank() {

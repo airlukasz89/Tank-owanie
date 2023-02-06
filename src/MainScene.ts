@@ -118,6 +118,40 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
+  generateRandomTanks(tanksCount: number, map: Phaser.Tilemaps.Tilemap) {
+    let countTo4 = 0;
+
+    for (let x = 0; x < map.width; x++) {
+      for (let y = 0; y < map.height; y++) {
+        let tileOffset = new Phaser.Math.Vector2(x * 32, y * 32);
+        let tile = this.layer.getTileAtWorldXY(
+          tileOffset.x,
+          tileOffset.y,
+          true
+        );
+        if (tile.index != 2) {
+          countTo4++;
+        }
+        if (countTo4 == 15) {
+          let enemyTank = new EnemyTank(tileOffset);
+          enemyTank.preload();
+          this.enemyTanks.push(enemyTank);
+
+          countTo4 = 0;
+        }
+      }
+
+      // console.log("tile: " + tile.index);
+      // if (tile.index != 2) {
+      //   nonColidingDirections.push(Direction.Right);
+      // }
+
+      // let enemyTank = new EnemyTank();
+      // enemyTank.preload();
+      // this.enemyTanks.push(enemyTank);
+    }
+  }
+
   preload() {
     Managers.sound = this.sound;
     Managers.add = this.add;
@@ -131,18 +165,6 @@ export default class MainScene extends Phaser.Scene {
     this.tank = new Tank();
     this.tank.preload();
 
-    let enemyTank = new EnemyTank(new Phaser.Math.Vector2(128, 32));
-    enemyTank.preload();
-    this.enemyTanks.push(enemyTank);
-
-    enemyTank = new EnemyTank(new Phaser.Math.Vector2(128 + 64, 32));
-    enemyTank.preload();
-    this.enemyTanks.push(enemyTank);
-
-    enemyTank = new EnemyTank(new Phaser.Math.Vector2(128 + 64, 32 + 64));
-    enemyTank.preload();
-    this.enemyTanks.push(enemyTank);
-
     // for (let i = 0; i < 3; i++) {
     //     let enemyTank = new EnemyTank();
     //     enemyTank.preload();
@@ -152,8 +174,11 @@ export default class MainScene extends Phaser.Scene {
 
   create() {
     var map = this.make.tilemap({ key: "map", tileWidth: 32, tileHeight: 32 });
+    console.log("maciek" + map.width);
     var tileset = map.addTilesetImage("tiles", null, 32, 32, 1, 2);
     this.layer = map.createLayer(0, tileset, 0, 0);
+
+    this.generateRandomTanks(5, map);
 
     this.tank.create();
 
