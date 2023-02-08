@@ -130,6 +130,14 @@ export default class Tank {
     }
   }
 
+  public getPosition() {
+    let position = new Phaser.Math.Vector2(
+      this.playerTankImage.x,
+      this.playerTankImage.y
+    );
+    return position;
+  }
+
   public GetBullets() {
     return this.bullets;
   }

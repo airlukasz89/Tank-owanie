@@ -13,11 +13,13 @@ export default class EnemyTank {
   private startPosition: Phaser.Math.Vector2;
 
   public isDestroyed: boolean = false;
+  private timeToAllowReversDirection: number;
 
   constructor(startPosition: Phaser.Math.Vector2) {
     this.startPosition = startPosition;
 
-    this.speed = Math.random() * (12 - 2) + 2;
+    this.speed = Math.random() * (8 - 2) + 2;
+    this.timeToAllowReversDirection = Managers.time.now;
   }
 
   private moveTank() {
@@ -143,6 +145,13 @@ export default class EnemyTank {
   }
 
   public reverseDirection() {
+    let allowToReverse = Managers.time.now > this.timeToAllowReversDirection;
+    if (!allowToReverse) {
+      return;
+    }
+
+    this.timeToAllowReversDirection = Managers.time.now + 400;
+
     if (this.direction == Direction.Left) {
       this.direction = Direction.Right;
       return;

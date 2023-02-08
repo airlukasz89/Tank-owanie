@@ -59,6 +59,27 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
+  public handleTankColissionWithEnemyTank() {
+    for (let enemyTank of this.enemyTanks) {
+      let positionEnemyTank = enemyTank.getPosition();
+      let positionTank = this.tank.getPosition();
+      let isColiding = this.isColiding(
+        positionEnemyTank.x - 16,
+        positionEnemyTank.y - 16,
+        32,
+        32,
+        positionTank.x - 32,
+        positionTank.y - 32,
+        64,
+        64
+      );
+      console.log("handleTank");
+      if (isColiding) {
+        enemyTank.reverseDirection();
+      }
+    }
+  }
+
   public handleEnemyTanksCollisons() {
     let pairs = [];
 
@@ -102,6 +123,7 @@ export default class MainScene extends Phaser.Scene {
 
   update() {
     this.handleEnemyTanksCollisons();
+    this.handleTankColissionWithEnemyTank();
     this.handleBulletEnemyTanks();
     this.tank.update(this.layer);
 
