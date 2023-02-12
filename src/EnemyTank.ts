@@ -14,6 +14,7 @@ export default class EnemyTank {
 
   public isDestroyed: boolean = false;
   private timeToAllowReversDirection: number;
+  private nextTimeToShotInMs: number;
 
   constructor(startPosition: Phaser.Math.Vector2) {
     this.startPosition = startPosition;
@@ -126,6 +127,21 @@ export default class EnemyTank {
     this.direction = newDirection;
   }
 
+  private shotBullet() {
+    let possibleToShot = Managers.time.now > this.nextTimeToShotInMs;
+    if (possibleToShot) {
+      this.nextTimeToShotInMs = Managers.time.now + 500;
+      let bulletDirection = this.GetDirectionVector();
+      let startPosition = new Phaser.Math.Vector2(
+        this.playerTankImage.x,
+        this.playerTankImage.y
+      );
+      let newBullet = new Bullet(startPosition, bulletDirection);
+      this.bullets.push(newBullet);
+      console.log("pyk pyk");
+    }
+  }
+
   // private shotBullet() {
   //   if(this.possilb
   //   {
@@ -181,7 +197,7 @@ export default class EnemyTank {
   update(layer: Phaser.Tilemaps.TilemapLayer) {
     this.changeDirectionIfWall(layer);
     this.moveTank();
-    // this.shotBullet();
+    this.shotBullet();
 
     for (let bullet of this.bullets) {
       bullet.update(layer);
@@ -200,12 +216,12 @@ export default class EnemyTank {
     // Managers.loader.audio('tank_idle', ['assets/tank_idle.mp3']);
     // Managers.loader.audio('tank_moving', ['assets/tank_moving.mp3']);
     // Managers.loader.image('car', 'assets/car90.png');
-    // Bullet.preload();
+    Bullet.preload();
   }
 
   create() {
     this.cursors = Managers.input.keyboard.createCursorKeys();
-
+    this.nextTimeToShotInMs = Managers.time.now;
     this.tankIdleAudio = Managers.sound.add("tank_idle");
     this.tankMovingAudio = Managers.sound.add("tank_moving", {
       loop: true,
