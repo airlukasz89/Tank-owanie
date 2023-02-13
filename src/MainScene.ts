@@ -11,6 +11,8 @@ export default class MainScene extends Phaser.Scene {
 
   private enemyTanks: EnemyTank[] = [];
 
+  private walker: Phaser.GameObjects.Sprite;
+
   constructor() {
     super("demo");
   }
@@ -203,6 +205,9 @@ export default class MainScene extends Phaser.Scene {
         }
       }
     }
+
+    this.walker.x -= 1;
+    // alert("!");
   }
 
   generateRandomTanks(tanksCount: number, map: Phaser.Tilemaps.Tilemap) {
@@ -252,6 +257,8 @@ export default class MainScene extends Phaser.Scene {
     this.tank = new Tank();
     this.tank.preload();
 
+    this.load.atlas("walker", "assets/walker.png", "assets/walker.json");
+
     // for (let i = 0; i < 3; i++) {
     //     let enemyTank = new EnemyTank();
     //     enemyTank.preload();
@@ -272,6 +279,19 @@ export default class MainScene extends Phaser.Scene {
     for (let enemyTank of this.enemyTanks) {
       enemyTank.create();
     }
+
+    const animConfig = {
+      key: "walk",
+      frames: "walker",
+      frameRate: 15,
+      repeat: -1,
+    };
+
+    this.anims.create(animConfig);
+
+    this.walker = this.add.sprite(820, 300, "walker", "frame_0000");
+
+    this.walker.play("walk");
   }
 }
 
