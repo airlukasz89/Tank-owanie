@@ -9,6 +9,9 @@ export default class Tank {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   // private bullets: Bullet[] = [];
   private nextTimeToShotInMs: number;
+  private startPosition: Phaser.Math.Vector2;
+
+  // public isDestroyed: boolean = false;
 
   private moveTank(vector: Phaser.Math.Vector2, angle: number, index: number) {
     if (index === 2) {
@@ -148,6 +151,11 @@ export default class Tank {
     this.shotBullet();
   }
 
+  public respawn() {
+    this.playerTankImage.x = this.startPosition.x;
+    this.playerTankImage.y = this.startPosition.y;
+  }
+
   preload() {
     Managers.loader.audio("tank_idle", ["assets/tank_idle.mp3"]);
     Managers.loader.audio("tank_moving", ["assets/tank_moving.mp3"]);
@@ -157,6 +165,7 @@ export default class Tank {
   }
 
   create() {
+    this.startPosition = new Phaser.Math.Vector2(32 + 16, 32 + 16);
     this.cursors = Managers.input.keyboard.createCursorKeys();
     this.nextTimeToShotInMs = Managers.time.now;
     this.tankIdleAudio = Managers.sound.add("tank_idle");
@@ -164,7 +173,11 @@ export default class Tank {
       loop: true,
     });
 
-    this.playerTankImage = Managers.add.image(32 + 16, 32 + 16, "car");
+    this.playerTankImage = Managers.add.image(
+      this.startPosition.x,
+      this.startPosition.y,
+      "car"
+    );
 
     Managers.input.keyboard.on("keyup", () => {
       this.tankMovingAudio.stop();
