@@ -8,7 +8,7 @@ export default class EnemyTank {
   private tankIdleAudio: Phaser.Sound.BaseSound;
   private tankMovingAudio: Phaser.Sound.BaseSound;
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-  private bullets: Bullet[] = [];
+  // private bullets: Bullet[] = [];
   private direction: Direction = Direction.Down;
   private startPosition: Phaser.Math.Vector2;
 
@@ -137,7 +137,7 @@ export default class EnemyTank {
         this.playerTankImage.y
       );
       let newBullet = new Bullet(startPosition, bulletDirection);
-      this.bullets.push(newBullet);
+      Managers.enemyTankBullets.push(newBullet);
       console.log("pyk pyk");
     }
   }
@@ -198,25 +198,13 @@ export default class EnemyTank {
     this.changeDirectionIfWall(layer);
     this.moveTank();
     this.shotBullet();
-
-    for (let bullet of this.bullets) {
-      bullet.update(layer);
-
-      if (bullet.isDestroyed) {
-        const objWithIdIndex = this.bullets.findIndex((b) => b.isDestroyed);
-
-        if (objWithIdIndex > -1) {
-          this.bullets.splice(objWithIdIndex, 1);
-        }
-      }
-    }
   }
 
   preload() {
     // Managers.loader.audio('tank_idle', ['assets/tank_idle.mp3']);
     // Managers.loader.audio('tank_moving', ['assets/tank_moving.mp3']);
     // Managers.loader.image('car', 'assets/car90.png');
-    Bullet.preload();
+    // Bullet.preload();
   }
 
   create() {

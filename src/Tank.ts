@@ -7,7 +7,7 @@ export default class Tank {
   private tankIdleAudio: Phaser.Sound.BaseSound;
   private tankMovingAudio: Phaser.Sound.BaseSound;
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-  private bullets: Bullet[] = [];
+  // private bullets: Bullet[] = [];
   private nextTimeToShotInMs: number;
 
   private moveTank(vector: Phaser.Math.Vector2, angle: number, index: number) {
@@ -126,7 +126,7 @@ export default class Tank {
         this.playerTankImage.y
       );
       let newBullet = new Bullet(startPosition, bulletDirection);
-      this.bullets.push(newBullet);
+      Managers.tankBullets.push(newBullet);
     }
   }
 
@@ -138,26 +138,14 @@ export default class Tank {
     return position;
   }
 
-  public GetBullets() {
-    return this.bullets;
-  }
+  // public GetBullets() {
+  //   return this.bullets;
+  // }
 
   update(layer: Phaser.Tilemaps.TilemapLayer) {
     this.moveTankAllDirections(layer);
 
     this.shotBullet();
-
-    for (let bullet of this.bullets) {
-      bullet.update(layer);
-
-      if (bullet.isDestroyed) {
-        const objWithIdIndex = this.bullets.findIndex((b) => b.isDestroyed);
-
-        if (objWithIdIndex > -1) {
-          this.bullets.splice(objWithIdIndex, 1);
-        }
-      }
-    }
   }
 
   preload() {

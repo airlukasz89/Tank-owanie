@@ -29,8 +29,8 @@ export default class MainScene extends Phaser.Scene {
     return false;
   }
 
-  public handleBulletEnemyTanks() {
-    let bullets = this.tank.GetBullets();
+  public handleTankBulletShootedToEnemyTanks() {
+    let bullets = Managers.tankBullets;
     let enemyTanks = this.enemyTanks;
     //let bulletsPositions = bullets.map(b=>b.getPosition())
 
@@ -54,6 +54,38 @@ export default class MainScene extends Phaser.Scene {
         ) {
           bullet.destroy();
           enemyTank.destroy();
+        }
+      }
+    }
+  }
+
+  private updateTankBullets() {
+    for (let bullet of Managers.tankBullets) {
+      bullet.update(this.layer);
+
+      if (bullet.isDestroyed) {
+        const objWithIdIndex = Managers.tankBullets.findIndex(
+          (b) => b.isDestroyed
+        );
+
+        if (objWithIdIndex > -1) {
+          Managers.tankBullets.splice(objWithIdIndex, 1);
+        }
+      }
+    }
+  }
+
+  private updateEnemyTankBullets() {
+    for (let bullet of Managers.enemyTankBullets) {
+      bullet.update(this.layer);
+
+      if (bullet.isDestroyed) {
+        const objWithIdIndex = Managers.enemyTankBullets.findIndex(
+          (b) => b.isDestroyed
+        );
+
+        if (objWithIdIndex > -1) {
+          Managers.enemyTankBullets.splice(objWithIdIndex, 1);
         }
       }
     }
@@ -124,8 +156,10 @@ export default class MainScene extends Phaser.Scene {
   update() {
     this.handleEnemyTanksCollisons();
     this.handleTankColissionWithEnemyTank();
-    this.handleBulletEnemyTanks();
+    this.handleTankBulletShootedToEnemyTanks();
     this.tank.update(this.layer);
+    this.updateTankBullets();
+    this.updateEnemyTankBullets();
 
     for (let enemyTank of this.enemyTanks) {
       enemyTank.update(this.layer);
