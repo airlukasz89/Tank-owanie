@@ -54,20 +54,24 @@ export default class MainScene extends Phaser.Scene {
           bullet.destroy();
           enemyTank.destroy();
 
-          var explosion1 = this.add.sprite(
-            enemyTankPosition.x,
-            enemyTankPosition.y,
-            "explosion1",
-            "12.png"
-          );
-          explosion1.scale = 0.5;
-          explosion1.play("explode");
-          explosion1.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
-            explosion1.destroy();
-          });
+          this.explode(enemyTankPosition);
         }
       }
     }
+  }
+
+  private explode(position: Phaser.Math.Vector2) {
+    var explosion1 = this.add.sprite(
+      position.x,
+      position.y,
+      "explosion1",
+      "12.png"
+    );
+    explosion1.scale = 0.5;
+    explosion1.play("explode");
+    explosion1.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+      explosion1.destroy();
+    });
   }
 
   public handleEnemyTankBulletShootedToTank() {
@@ -91,6 +95,8 @@ export default class MainScene extends Phaser.Scene {
       ) {
         bullet.destroy();
         this.tank.respawn();
+
+        this.explode(tankPosition);
       }
     }
   }
