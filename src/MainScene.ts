@@ -54,6 +54,18 @@ export default class MainScene extends Phaser.Scene {
         ) {
           bullet.destroy();
           enemyTank.destroy();
+
+          var explosion1 = this.add.sprite(
+            enemyTankPosition.x,
+            enemyTankPosition.y,
+            "explosion1",
+            "12.png"
+          );
+          explosion1.scale = 0.5;
+          explosion1.play("explode");
+          explosion1.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+            explosion1.destroy();
+          });
         }
       }
     }
@@ -282,14 +294,9 @@ export default class MainScene extends Phaser.Scene {
       key: "explode",
       frames: "explosion1",
       frameRate: 45,
-      repeat: -1,
+      repeat: 0,
     };
     this.anims.create(animConfig2);
-    this.explosion1 = this.add.sprite(300, 300, "explosion1", "12.png");
-    this.explosion1.scale = 0.5;
-    this.explosion1.play("explode");
-
-    this.add.sprite(400, 100, "gems").play("diamond");
   }
 }
 
