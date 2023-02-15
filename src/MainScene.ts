@@ -12,6 +12,7 @@ export default class MainScene extends Phaser.Scene {
   private enemyTanks: EnemyTank[] = [];
 
   private walker: Phaser.GameObjects.Sprite;
+  private explosion1: Phaser.GameObjects.Sprite;
 
   constructor() {
     super("demo");
@@ -239,6 +240,12 @@ export default class MainScene extends Phaser.Scene {
 
     this.load.atlas("walker", "assets/walker.png", "assets/walker.json");
 
+    this.load.atlas(
+      "explosion1",
+      "assets/explosion1.png",
+      "assets/explosion1.json"
+    );
+
     this.load.animation("gemData", "assets/animations/gems.json");
     this.load.atlas(
       "gems",
@@ -267,12 +274,20 @@ export default class MainScene extends Phaser.Scene {
       frameRate: 15,
       repeat: -1,
     };
-
     this.anims.create(animConfig);
-
     this.walker = this.add.sprite(820, 300, "walker", "frame_0000");
-
     this.walker.play("walk");
+
+    const animConfig2 = {
+      key: "explode",
+      frames: "explosion1",
+      frameRate: 45,
+      repeat: -1,
+    };
+    this.anims.create(animConfig2);
+    this.explosion1 = this.add.sprite(300, 300, "explosion1", "12.png");
+    this.explosion1.scale = 0.5;
+    this.explosion1.play("explode");
 
     this.add.sprite(400, 100, "gems").play("diamond");
   }
