@@ -12,7 +12,6 @@ export default class MainScene extends Phaser.Scene {
   private enemyTanks: EnemyTank[] = [];
 
   private walker: Phaser.GameObjects.Sprite;
-  private explosion1: Phaser.GameObjects.Sprite;
 
   constructor() {
     super("demo");
