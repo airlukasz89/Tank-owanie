@@ -34,9 +34,6 @@ export default class MainScene extends Phaser.Scene {
   public handleTankBulletShootedToEnemyTanks() {
     let bullets = Managers.tankBullets;
     let enemyTanks = this.enemyTanks;
-    //let bulletsPositions = bullets.map(b=>b.getPosition())
-
-    // zrobić for zagnieżdzonego;
 
     for (let bullet of bullets) {
       for (let enemyTank of enemyTanks) {
@@ -64,12 +61,8 @@ export default class MainScene extends Phaser.Scene {
   public handleEnemyTankBulletShootedToTank() {
     let bullets = Managers.enemyTankBullets;
     let tank = this.tank;
-    //let bulletsPositions = bullets.map(b=>b.getPosition())
-
-    // zrobić for zagnieżdzonego;
 
     for (let bullet of bullets) {
-      // for (let enemyTank of enemyTanks) {
       let bulletPosition = bullet.getPosition();
       let tankPosition = this.tank.getPosition();
       if (
@@ -87,7 +80,6 @@ export default class MainScene extends Phaser.Scene {
         bullet.destroy();
         this.tank.respawn();
       }
-      // }
     }
   }
 
@@ -178,8 +170,6 @@ export default class MainScene extends Phaser.Scene {
           console.log("is colision");
           enemyTank1.reverseDirection();
           enemyTank2.reverseDirection();
-          // console.log(positionTank1);
-          // console.log(positionTank2);
         }
       }
     }
@@ -207,7 +197,6 @@ export default class MainScene extends Phaser.Scene {
     }
 
     this.walker.x -= 1;
-    // alert("!");
   }
 
   generateRandomTanks(tanksCount: number, map: Phaser.Tilemaps.Tilemap) {
@@ -232,15 +221,6 @@ export default class MainScene extends Phaser.Scene {
           countTo4 = 0;
         }
       }
-
-      // console.log("tile: " + tile.index);
-      // if (tile.index != 2) {
-      //   nonColidingDirections.push(Direction.Right);
-      // }
-
-      // let enemyTank = new EnemyTank();
-      // enemyTank.preload();
-      // this.enemyTanks.push(enemyTank);
     }
   }
 
@@ -259,11 +239,12 @@ export default class MainScene extends Phaser.Scene {
 
     this.load.atlas("walker", "assets/walker.png", "assets/walker.json");
 
-    // for (let i = 0; i < 3; i++) {
-    //     let enemyTank = new EnemyTank();
-    //     enemyTank.preload();
-    //     this.enemyTanks.push(enemyTank);
-    // }
+    this.load.animation("gemData", "assets/animations/gems.json");
+    this.load.atlas(
+      "gems",
+      "assets/tests/columns/gems.png",
+      "assets/tests/columns/gems.json"
+    );
   }
 
   create() {
@@ -292,6 +273,8 @@ export default class MainScene extends Phaser.Scene {
     this.walker = this.add.sprite(820, 300, "walker", "frame_0000");
 
     this.walker.play("walk");
+
+    this.add.sprite(400, 100, "gems").play("diamond");
   }
 }
 
