@@ -272,6 +272,26 @@ export default class MainScene extends Phaser.Scene {
     );
   }
 
+  createObstackleArray(tileset: Phaser.Tilemaps.Tileset) {
+    let arr = [];
+
+    console.log(`DIMA ${this.layer.width} x ${this.layer.height}`);
+    // creating two dimensional array
+    for (let col = 0; col < this.layer.width / 32; col++) {
+      for (let row = 0; row < this.layer.height / 32; row++) {
+        arr[col] = [];
+      }
+    }
+
+    // inserting elements to array
+    for (let col = 0; col < this.layer.width / 32; col++) {
+      for (let row = 0; row < this.layer.height / 32; row++) {
+        arr[row][col] = this.layer.getTileAt(col, row).index;
+      }
+    }
+    return arr;
+  }
+
   create() {
     let mapx = [
       [0, 0, 14, 23, 23, 0, 0, 23, 0, 0, 0, 2, 0, 0],
@@ -304,6 +324,8 @@ export default class MainScene extends Phaser.Scene {
 
     var tileset = map.addTilesetImage("tiles", null, 32, 32, 1, 2);
     this.layer = map.createLayer(0, tileset, 0, 0);
+
+    console.log(this.createObstackleArray(tileset));
 
     this.generateRandomTanks(5, map);
 
