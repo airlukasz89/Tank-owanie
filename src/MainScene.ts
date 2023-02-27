@@ -3,6 +3,7 @@ import Tank from "./Tank";
 import EnemyTank from "./EnemyTank";
 import Managers from "./Managers";
 import Bullet from "./Bullet";
+import { PathFinding } from "astarjs";
 
 export default class MainScene extends Phaser.Scene {
   private layer: Phaser.Tilemaps.TilemapLayer;
@@ -147,7 +148,7 @@ export default class MainScene extends Phaser.Scene {
         64,
         64
       );
-      console.log("handleTank");
+      // console.log("handleTank");
       if (isColiding) {
         enemyTank.reverseDirection();
       }
@@ -185,7 +186,7 @@ export default class MainScene extends Phaser.Scene {
         if (isColiding) {
           pairs.push([enemyTank1, enemyTank2]);
 
-          console.log("is colision");
+          // console.log("is colision");
           enemyTank1.reverseDirection();
           enemyTank2.reverseDirection();
         }
@@ -272,8 +273,35 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
+    let mapx = [
+      [0, 0, 14, 23, 23, 0, 0, 23, 0, 0, 0, 2, 0, 0],
+      [0, 0, 0, 0, 0, 0, 13, 1, 0, 0, 0, 0, 0, 13],
+      [1, 23, 0, 14, 23, 0, 13, 0, 2, 0, 1, 0, 23, 2],
+      [14, 0, 0, 0, 0, 23, 0, 0, 0, 2, 2, 2, 0, 0],
+      [13, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 14, 0, 0],
+      [13, 0, 0, 0, 23, 0, 0, 23, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0],
+      [0, 0, 0, 23, 0, 4, 0, 0, 0, 1, 0, 23, 0, 2],
+    ];
+
+    let pathFindingManager = new PathFinding();
+    pathFindingManager
+      .setWalkable(0) // or this.pathFindingManager.setWalkable(0, 10, 11);
+      .setEnd({
+        col: 5,
+        row: 0,
+      })
+      .setStart({
+        col: 0,
+        row: 0,
+      });
+
+    let bestPath: { col: number; row: number }[] =
+      pathFindingManager.find(mapx);
+    console.log(bestPath);
+
     var map = this.make.tilemap({ key: "map", tileWidth: 32, tileHeight: 32 });
-    console.log("maciek" + map.width);
+
     var tileset = map.addTilesetImage("tiles", null, 32, 32, 1, 2);
     this.layer = map.createLayer(0, tileset, 0, 0);
 

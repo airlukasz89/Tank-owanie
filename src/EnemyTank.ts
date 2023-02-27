@@ -138,7 +138,7 @@ export default class EnemyTank {
       );
       let newBullet = new Bullet(startPosition, bulletDirection);
       Managers.enemyTankBullets.push(newBullet);
-      console.log("pyk pyk");
+      console.log(" ");
     }
   }
 

@@ -18,7 +18,11 @@
         "url": "https://github.com/photonstorm/phaser3-typescript-project-template/issues"
     },
     "homepage": "https://github.com/photonstorm/phaser3-typescript-project-template#readme",
-    "dependencies": {},
+    "dependencies": {
+        "astar-typescript": "^1.2.6",
+        "astarjs": "^1.1.0",
+        "easystarjs": "^0.4.4"
+    },
     "devDependencies": {
         "@rollup/plugin-replace": "^2.3.4",
         "phaser": "^3.50.0",
