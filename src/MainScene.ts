@@ -70,9 +70,9 @@ export default class MainScene extends Phaser.Scene {
     );
     explosion1.scale = 0.5;
     explosion1.play("explode");
-    explosion1.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
-      explosion1.destroy();
-    });
+    // explosion1.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+    //   explosion1.destroy();
+    // });
   }
 
   public handleEnemyTankBulletShootedToTank() {
@@ -293,39 +293,39 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-    let mapx = [
-      [0, 0, 14, 23, 23, 0, 0, 23, 0, 0, 0, 2, 0, 0],
-      [0, 0, 0, 0, 0, 0, 13, 1, 0, 0, 0, 0, 0, 13],
-      [1, 23, 0, 14, 23, 0, 13, 0, 2, 0, 1, 0, 23, 2],
-      [14, 0, 0, 0, 0, 23, 0, 0, 0, 2, 2, 2, 0, 0],
-      [13, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 14, 0, 0],
-      [13, 0, 0, 0, 23, 0, 0, 23, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0],
-      [0, 0, 0, 23, 0, 4, 0, 0, 0, 1, 0, 23, 0, 2],
-    ];
-
-    let pathFindingManager = new PathFinding();
-    pathFindingManager
-      .setWalkable(0) // or this.pathFindingManager.setWalkable(0, 10, 11);
-      .setEnd({
-        col: 5,
-        row: 0,
-      })
-      .setStart({
-        col: 0,
-        row: 0,
-      });
-
-    let bestPath: { col: number; row: number }[] =
-      pathFindingManager.find(mapx);
-    console.log(bestPath);
-
     var map = this.make.tilemap({ key: "map", tileWidth: 32, tileHeight: 32 });
 
     var tileset = map.addTilesetImage("tiles", null, 32, 32, 1, 2);
     this.layer = map.createLayer(0, tileset, 0, 0);
 
     console.log(this.createObstackleArray(tileset));
+    let mapx = this.createObstackleArray(tileset);
+    // let mapx = [
+    //   [0, 0, 14, 23, 23, 0, 0, 23, 0, 0, 0, 2, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 13, 1, 0, 0, 0, 0, 0, 13],
+    //   [1, 23, 0, 14, 23, 0, 13, 0, 2, 0, 1, 0, 23, 2],
+    //   [14, 0, 0, 0, 0, 23, 0, 0, 0, 2, 2, 2, 0, 0],
+    //   [13, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 14, 0, 0],
+    //   [13, 0, 0, 0, 23, 0, 0, 23, 0, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0],
+    //   [0, 0, 0, 23, 0, 4, 0, 0, 0, 1, 0, 23, 0, 2],
+    // ];
+
+    let pathFindingManager = new PathFinding();
+    pathFindingManager
+      .setWalkable(0) // or this.pathFindingManager.setWalkable(0, 10, 11);
+      .setEnd({
+        col: 4,
+        row: 4,
+      })
+      .setStart({
+        col: 2,
+        row: 4,
+      });
+
+    let bestPath: { col: number; row: number }[] =
+      pathFindingManager.find(mapx);
+    console.log(bestPath);
 
     this.generateRandomTanks(5, map);
 
